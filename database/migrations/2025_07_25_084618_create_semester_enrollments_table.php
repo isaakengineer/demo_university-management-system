@@ -13,6 +13,10 @@ return new class extends Migration
     {
         Schema::create('semester_enrollments', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('student_id')->constrained('users')->cascadeOnDelete();
+            $table->unsignedSmallInteger('year');
+            $table->unsignedTinyInteger('semester');
+            $table->unsignedInteger('credits');
             $table->timestamps();
         });
     }
