@@ -25,7 +25,7 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
-            'fa_name' => fake()->name(),
+            'fa_name' => fn() => $this->faker->name(), // Same name but in Persian/Arabic script
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
@@ -50,7 +50,7 @@ class UserFactory extends Factory
             \App\Models\Employment::create([
                 'user_id' => $user->id,
                 'role_id' => $role->id,
-                'department_id' => $role->name === 'administrator' || $role->name === 'dean' 
+                'department_id' => $role->name === 'administrator' || $role->name === 'dean'
                     ? \App\Models\Department::where('name', 'Administration')->first()->id
                     : \App\Models\Department::where('name', '!=', 'Administration')->inRandomOrder()->first()->id,
             ]);
