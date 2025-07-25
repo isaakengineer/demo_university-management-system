@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "e005df4ecfb5cc99fb044273bcf591a2",
+    "content-hash": "ae397b35ddfc845a270ee0bf4b928ded",
     "packages": [
         {
             "name": "beberlei/assert",
@@ -5842,6 +5842,46 @@
             "time": "2024-12-21T16:25:41+00:00"
         },
         {
+            "name": "university-management-system/approval-management-system",
+            "version": "dev-master",
+            "dist": {
+                "type": "path",
+                "url": "./packages/university-management-system/approval-management-system",
+                "reference": "b0e075f480dcae197ae3883273087776573fed36"
+            },
+            "require": {
+                "illuminate/support": "^12.0",
+                "php": "^8.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "UniversityManagementSystem\\ApprovalManagementSystem\\ApprovalManagementSystemServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "UniversityManagementSystem\\ApprovalManagementSystem\\": "src/",
+                    "UniversityManagementSystem\\ApprovalManagementSystem\\Database\\Seeders\\": "database/seeders/"
+                }
+            },
+            "license": [
+                "AGPL-3.0"
+            ],
+            "authors": [
+                {
+                    "name": "Isaak Engineer",
+                    "email": "i-engineer@tutamail.com"
+                }
+            ],
+            "description": "An internal package designed to handle multi-step approval scenarios",
+            "transport-options": {
+                "relative": true
+            }
+        },
+        {
             "name": "vlucas/phpdotenv",
             "version": "v5.6.2",
             "source": {
@@ -8365,8 +8405,10 @@
         }
     ],
     "aliases": [],
-    "minimum-stability": "stable",
-    "stability-flags": {},
+    "minimum-stability": "dev",
+    "stability-flags": {
+        "university-management-system/approval-management-system": 20
+    },
     "prefer-stable": true,
     "prefer-lowest": false,
     "platform": {

@@ -6,6 +6,7 @@ use App\Models\User;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
+use UniversityManagementSystem\ApprovalManagementSystem\Database\Seeders\DatabaseSeeder as ApprovalSeeder;
 
 class DatabaseSeeder extends Seeder
 {
@@ -21,6 +22,10 @@ class DatabaseSeeder extends Seeder
             CourseSeeder::class,
             SemesterEnrollmentSeeder::class,
             CourseEnrollmentSeeder::class,
+        ]);
+
+        $this->call([
+            ApprovalSeeder::class
         ]);
     }
 }
