@@ -29,6 +29,8 @@ class SemesterEnrollmentSeeder extends Seeder
                     'year' => $currentYear,
                     'semester' => $semester,
                     'credits' => 0, // Will be updated by CourseEnrollmentSeeder
+                    'credits_max' => 24,
+                    'grade' => null,
                 ]);
             }
 
@@ -39,6 +41,8 @@ class SemesterEnrollmentSeeder extends Seeder
                     'year' => $currentYear - 1,
                     'semester' => $semester,
                     'credits' => rand(15, 30), // Random credits for past semesters
+                    'credits_max' => 24,
+                    'grade' => rand(10, 20) / 10, // Random grade between 1.0 and 2.0
                 ]);
             }
         }

@@ -47,8 +47,15 @@ class CourseEnrollmentSeeder extends Seeder
                     $totalCredits += $course->credits;
                 }
 
-                // Update semester enrollment with total credits
-                $semesterEnrollment->update(['credits' => $totalCredits]);
+                // Calculate average grade from all course enrollments
+                $averageGrade = \App\Models\CourseEnrollment::where('enrollment_id', $semesterEnrollment->id)
+                    ->avg('grade');
+
+                // Update semester enrollment with total credits and average grade
+                $semesterEnrollment->update([
+                    'credits' => $totalCredits,
+                    'grade' => $averageGrade,
+                ]);
             }
         }
     }

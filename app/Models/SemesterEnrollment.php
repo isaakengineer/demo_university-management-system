@@ -14,6 +14,8 @@ class SemesterEnrollment extends Model
         'year',
         'semester',
         'credits',
+        'credits_max',
+        'grade',
     ];
 
     public function student()

@@ -17,6 +17,8 @@ return new class extends Migration
             $table->unsignedSmallInteger('year');
             $table->unsignedTinyInteger('semester');
             $table->unsignedInteger('credits');
+            $table->unsignedInteger('credits_max');
+            $table->decimal('grade', 3, 1)->nullable();
             $table->timestamps();
         });
     }
