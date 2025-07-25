@@ -17,7 +17,10 @@ class CourseEnrollmentFactory extends Factory
     public function definition(): array
     {
         return [
-            //
+            'enrollment_id' => \App\Models\SemesterEnrollment::factory(),
+            'course_id' => \App\Models\Course::factory(),
+            'grade' => $this->faker->randomFloat(1, 0, 20),
+            'credits' => $this->faker->numberBetween(3, 5),
         ];
     }
 }

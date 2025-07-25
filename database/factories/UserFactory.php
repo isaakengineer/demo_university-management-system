@@ -25,6 +25,7 @@ class UserFactory extends Factory
     {
         return [
             'name' => fake()->name(),
+            'fa_name' => fake()->name(),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),
             'password' => static::$password ??= Hash::make('password'),
@@ -40,5 +41,19 @@ class UserFactory extends Factory
         return $this->state(fn (array $attributes) => [
             'email_verified_at' => null,
         ]);
+    }
+
+    public function configure()
+    {
+        return $this->afterCreating(function (User $user) {
+            $role = \App\Models\Role::inRandomOrder()->first();
+            \App\Models\Employment::create([
+                'user_id' => $user->id,
+                'role_id' => $role->id,
+                'department_id' => $role->name === 'administrator' || $role->name === 'dean' 
+                    ? \App\Models\Department::where('name', 'Administration')->first()->id
+                    : \App\Models\Department::where('name', '!=', 'Administration')->inRandomOrder()->first()->id,
+            ]);
+        });
     }
 }
