@@ -45,7 +45,7 @@ class UserFactory extends Factory
 
     public function configure()
     {
-        return $this->afterCreating(function (User $user) {
+        return $this->afterCreating(function (\App\Models\User $user) {
             $role = \App\Models\Role::inRandomOrder()->first();
             \App\Models\Employment::create([
                 'user_id' => $user->id,

@@ -39,17 +39,22 @@ class User extends Authenticatable
 
     public function currentRole()
     {
-        return optional($this->currentEmployment())->role;
+        if (!$this->currentEmployment()) {
+            return null;
+        }
+        return $this->currentEmployment()->role()->first();
     }
 
     public function isStudent()
     {
-        return optional($this->currentRole())->name === 'student';
+        $role = $this->currentRole();
+        return $role && $role->name === 'student';
     }
 
     public function isProfessor()
     {
-        return optional($this->currentRole())->name === 'professor';
+        $role = $this->currentRole();
+        return $role && $role->name === 'professor';
     }
 
     public function semesterEnrollments()

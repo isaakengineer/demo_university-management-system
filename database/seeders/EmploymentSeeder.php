@@ -12,6 +12,6 @@ class EmploymentSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        // Employment records are now handled by UserSeeder
     }
 }

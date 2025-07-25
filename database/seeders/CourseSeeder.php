@@ -41,8 +41,9 @@ class CourseSeeder extends Seeder
          foreach ($departments as $department) {
              foreach ($departmentCourses[$department->name] as $course) {
                  $course['department_id'] = $department->id;
-                 $course['professor_id'] = \App\Models\User::whereHas('currentRole', function($q) {
-                     $q->where('name', 'professor');
+                 $course['professor_id'] = \App\Models\User::
+                 whereHas('employments', function($q) use ($department) {
+                    $q->where('role_id', \App\Models\Role::where('name', 'professor')->first()->id)->where('department_id', $department->id);
                  })->inRandomOrder()->first()->id;
                  \App\Models\Course::create($course);
              }
