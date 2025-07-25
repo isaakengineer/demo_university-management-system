@@ -13,7 +13,6 @@ class CourseEnrollment extends Model
         'enrollment_id',
         'course_id',
         'grade',
-        'credits',
     ];
 
     public function semesterEnrollment()
