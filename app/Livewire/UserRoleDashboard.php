@@ -13,6 +13,7 @@ class UserRoleDashboard extends Component
     public $selectedUserId = null;
     public $studentDetails = null;
     public $professorDetails = null;
+    public $showDetails = false;
 
     public function mount()
     {
@@ -38,6 +39,7 @@ class UserRoleDashboard extends Component
 
         Auth::login($user);
         $this->selectedUserId = $userId;
+        $this->showDetails = false;
 
         // Rollenspezifische Daten laden
         $role = $user->employments->first()?->role;

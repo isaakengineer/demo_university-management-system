@@ -1,6 +1,12 @@
 {
     "$schema": "https://getcomposer.org/schema.json",
     "name": "university-management-system/demo",
+    "authors": [
+        {
+            "name": "Isaak Engineer",
+            "email": "i-engineer@tutamail.com"
+        }
+    ],
     "type": "project",
     "description": "A demo project for the University Management System.    ",
     "keywords": ["laravel", "framework"],
