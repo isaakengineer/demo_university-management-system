@@ -39,11 +39,17 @@ class User extends Authenticatable
 
     public function currentRole()
     {
-        if (!$this->currentEmployment()) {
-            return null;
-        }
-        return $this->currentEmployment()->role()->first();
+        return $this->belongsToMany(Role::class, 'employments', 'user_id', 'role_id')
+            ->latest('employments.created_at')  // Explizit die Tabelle angeben
+            ->first();
     }
+
+    // public function roles()
+    // {
+    //     return $this->belongsToMany(Role::class, 'employments', 'user_id', 'role_id')
+    //         ->withPivot('department_id') // Falls zusätzliche Felder vorhanden sind
+    //         ->withTimestamps(); // Falls Timestamps verwendet werden
+    // }
 
     public function isStudent()
     {
@@ -65,5 +71,41 @@ class User extends Authenticatable
     public function coursesTaught()
     {
         return $this->hasMany(Course::class, 'professor_id');
+    }
+
+    public function getCurrentDepartmentAttribute()
+    {
+        if ($this->isStudent()) {
+            // Get the latest semester enrollment for the student
+            $latestEnrollment = $this->semesterEnrollments()->latest()->first();
+            if ($latestEnrollment) {
+                // Get the first course enrollment for the latest semester
+                $courseEnrollment = $latestEnrollment->courseEnrollments()->first();
+                if ($courseEnrollment) {
+                    return $courseEnrollment->course->department;
+                }
+            }
+        } elseif ($this->employments()->exists()) {
+            // Get the latest employment
+            $latestEmployment = $this->employments()->latest()->first();
+            if ($latestEmployment) {
+                return $latestEmployment->department;
+            }
+        }
+
+        return null;
+    }
+    public static function findByRoleAndDepartment($roleId, $departmentId)
+    {
+        return self::whereHas('employments', function ($q) use ($roleId, $departmentId) {
+            $q->where('role_id', $roleId)
+              ->where('department_id', $departmentId);
+        })->get();
+    }
+    public static function findByRole($roleId)
+    {
+        return self::whereHas('employments', function ($q) use ($roleId) {
+            $q->where('role_id', $roleId);
+        })->get();
     }
 }
