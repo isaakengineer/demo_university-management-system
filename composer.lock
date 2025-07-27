@@ -5847,7 +5847,7 @@
             "dist": {
                 "type": "path",
                 "url": "./packages/university-management-system/approval-management-system",
-                "reference": "b0e075f480dcae197ae3883273087776573fed36"
+                "reference": "acf91c24190494957302573d04fadabe552ea7fe"
             },
             "require": {
                 "illuminate/support": "^12.0",

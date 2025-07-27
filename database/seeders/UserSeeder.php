@@ -46,18 +46,48 @@ class UserSeeder extends Seeder
             'department_id' => $adminDept->id,
         ]);
 
-        // Create vice educational advisor
-        $vice = User::create([
-            'name' => 'Vice Advisor',
+        // Create vice educational
+        $viceEducational = User::create([
+            'name' => 'Vice Educational',
             'fa_name' => 'معاون آموزشی',
-            'email' => 'vice@example.com',
+            'email' => 'vice.educational@example.com',
             'password' => Hash::make('password'),
         ]);
 
-        // Assign vice role
-        $viceRole = Role::where('name', 'vice_educational_advisor')->first();
-        $vice->employments()->create([
-            'role_id' => $viceRole->id,
+        // Assign vice educational role
+        $viceEducationalRole = Role::where('name', 'vice_educational')->first();
+        $viceEducational->employments()->create([
+            'role_id' => $viceEducationalRole->id,
+            'department_id' => $adminDept->id,
+        ]);
+
+        // Create vice student affairs
+        $viceStudentAffairs = User::create([
+            'name' => 'Vice Student Affairs',
+            'fa_name' => 'معاون دانشجویی',
+            'email' => 'vice.student@example.com',
+            'password' => Hash::make('password'),
+        ]);
+
+        // Assign vice student affairs role
+        $viceStudentAffairsRole = Role::where('name', 'vice_student_affairs')->first();
+        $viceStudentAffairs->employments()->create([
+            'role_id' => $viceStudentAffairsRole->id,
+            'department_id' => $adminDept->id,
+        ]);
+
+        // Create vice research
+        $viceResearch = User::create([
+            'name' => 'Vice Research',
+            'fa_name' => 'معاون پژوهشی',
+            'email' => 'vice.research@example.com',
+            'password' => Hash::make('password'),
+        ]);
+
+        // Assign vice research role
+        $viceResearchRole = Role::where('name', 'vice_research')->first();
+        $viceResearch->employments()->create([
+            'role_id' => $viceResearchRole->id,
             'department_id' => $adminDept->id,
         ]);
 
