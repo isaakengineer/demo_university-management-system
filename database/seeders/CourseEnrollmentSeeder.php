@@ -26,35 +26,57 @@ class CourseEnrollmentSeeder extends Seeder
             $departmentId = $student->employments()->first()->department_id;
             $courses = \App\Models\Course::where('department_id', $departmentId)->get();
 
-            // Get current semester enrollment (created by SemesterEnrollmentSeeder)
-            $semesterEnrollment = \App\Models\SemesterEnrollment::where('student_id', $student->id)
+            // Semester 1 enrollment with grades
+            $semester1Enrollment = \App\Models\SemesterEnrollment::where('student_id', $student->id)
                 ->where('year', date('Y'))
-                ->where('semester', 1) // First semester of current year
+                ->where('semester', 1)
                 ->first();
 
-            $totalCredits = 0;
-            
-            // Enroll in 3-5 random courses from department
-            if ($semesterEnrollment) {
-                $coursesToEnroll = $courses->random(rand(3, min(5, $courses->count())));
-                foreach ($coursesToEnroll as $course) {
+            $totalCredits1 = 0;
+
+            if ($semester1Enrollment) {
+                $coursesToEnroll1 = $courses->random(rand(3, min(5, $courses->count())));
+                foreach ($coursesToEnroll1 as $course) {
                     $grade = rand(0, 200) / 10; // Random grade between 0.0 and 20.0
                     \App\Models\CourseEnrollment::create([
-                        'enrollment_id' => $semesterEnrollment->id,
+                        'enrollment_id' => $semester1Enrollment->id,
                         'course_id' => $course->id,
                         'grade' => $grade,
                     ]);
-                    $totalCredits += $course->credits;
+                    $totalCredits1 += $course->credits;
                 }
 
-                // Calculate average grade from all course enrollments
-                $averageGrade = \App\Models\CourseEnrollment::where('enrollment_id', $semesterEnrollment->id)
+                $averageGrade1 = \App\Models\CourseEnrollment::where('enrollment_id', $semester1Enrollment->id)
                     ->avg('grade');
 
-                // Update semester enrollment with total credits and average grade
-                $semesterEnrollment->update([
-                    'credits' => $totalCredits,
-                    'grade' => $averageGrade,
+                $semester1Enrollment->update([
+                    'credits' => $totalCredits1,
+                    'grade' => $averageGrade1,
+                ]);
+            }
+
+            // Semester 2 enrollment without grades
+            $semester2Enrollment = \App\Models\SemesterEnrollment::where('student_id', $student->id)
+                ->where('year', date('Y'))
+                ->where('semester', 2)
+                ->first();
+
+            $totalCredits2 = 0;
+
+            if ($semester2Enrollment) {
+                $coursesToEnroll2 = $courses->random(rand(3, min(5, $courses->count())));
+                foreach ($coursesToEnroll2 as $course) {
+                    \App\Models\CourseEnrollment::create([
+                        'enrollment_id' => $semester2Enrollment->id,
+                        'course_id' => $course->id,
+                        'grade' => null,
+                    ]);
+                    $totalCredits2 += $course->credits;
+                }
+
+                $semester2Enrollment->update([
+                    'credits' => $totalCredits2,
+                    'grade' => null,
                 ]);
             }
         }
