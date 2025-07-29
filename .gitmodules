@@ -1,0 +1,3 @@
+[submodule "packages/university-management-system/approval-management-system"]
+	path = packages/university-management-system/approval-management-system
+	url = https://github.com/isaakengineer/demo_approval-management-system
