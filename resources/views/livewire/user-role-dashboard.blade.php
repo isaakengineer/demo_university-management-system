@@ -25,17 +25,18 @@
                                 >
                                     ورود به عنوان {{ $user->fa_name }}
                                 </button>
-                                @if ($selectedUserId === $user->id)
-                                    <button
-                                        wire:click="$toggle('showDetails')"
-                                        class="bg-green-500 text-white px-3 py-1 rounded mt-2"
-                                    >
-                                        {{ $showDetails ? 'مخفی کردن جزئیات' : 'نمایش جزئیات' }}
-                                    </button>
-                                @endif
+
+                                <button
+                                    wire:click="toggleDetails({{ $user->id }})"
+                                    class="bg-green-500 text-white px-3 py-1 rounded mt-2"
+                                >
+                                    {{ $showDetails[$user->id] ?? false ? 'مخفی کردن جزئیات' : 'نمایش جزئیات' }}
+                                </button>
+
+
                             </td>
                         </tr>
-                        @if ($selectedUserId === $user->id && $showDetails)
+                        @if (($showDetails[$user->id] ?? false))
                             <tr>
                                 <td colspan="3" class="p-4 bg-gray-50">
                                     @if ($studentDetails)

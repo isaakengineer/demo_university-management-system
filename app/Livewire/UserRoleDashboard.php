@@ -13,7 +13,11 @@ class UserRoleDashboard extends Component
     public $selectedUserId = null;
     public $studentDetails = null;
     public $professorDetails = null;
-    public $showDetails = false;
+    public $showDetails = [];
+
+    protected $rules = [
+        'showDetails.*' => 'boolean',
+    ];
 
     public function mount()
     {
@@ -22,6 +26,7 @@ class UserRoleDashboard extends Component
 
         // Manuell nach Rollen gruppieren
         foreach ($users as $user) {
+            $this->showDetails[$user->id] = false;
             $role = $user->employments->first()?->role;
             $roleName = $role ? $role->name : 'other';
 
@@ -32,16 +37,12 @@ class UserRoleDashboard extends Component
         }
     }
 
-    public function loginAsUser($userId)
+    public function toggleDetails($userId)
     {
+        $this->showDetails[$userId] = !($this->showDetails[$userId] ?? false);
+
         $user = User::with(['employments.role', 'semesterEnrollments.courseEnrollments.course', 'coursesTaught'])
                    ->find($userId);
-
-        Auth::login($user);
-        $this->selectedUserId = $userId;
-        $this->showDetails = false;
-
-        // Rollenspezifische Daten laden
         $role = $user->employments->first()?->role;
 
         if ($role && $role->name === 'student') {
@@ -51,6 +52,20 @@ class UserRoleDashboard extends Component
             $this->professorDetails = $user->coursesTaught;
             $this->studentDetails = null;
         }
+        $this->validate(); // Trigger Livewire's Reactivity
+    }
+
+    public function loginAsUser($userId)
+    {
+        $user = User::with(['employments.role', 'semesterEnrollments.courseEnrollments.course', 'coursesTaught'])
+                   ->find($userId);
+
+        Auth::login($user);
+        $this->selectedUserId = $userId;
+        $this->showDetails[$userId] = false;
+
+        // Weiterleitung zur Dashboard-Route
+        return redirect()->route('dashboard');
     }
 
     public function render()
